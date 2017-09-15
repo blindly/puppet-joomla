@@ -3,6 +3,8 @@ class joomla::app {
 
   $joomla_archive = 'Joomla_3-7.5-Stable-Full_Package.zip'
   
+  $install_directory = '/var/www/html'
+  
   $apache = $::operatingsystem ? {
     Ubuntu   => apache2,
     CentOS   => httpd,
@@ -36,6 +38,20 @@ class joomla::app {
     CentOS   => php,
     Debian   => libapache2-mod-php5,
     default  => php
+  }
+  
+  $www_user = $::operatingsystem ? {
+    Ubuntu   => www-data,
+    CentOS   => www-data,
+    Debian   => www-data,
+    default  => www-data
+  }
+  
+  $www_group = $::operatingsystem ? {
+    Ubuntu   => www-data,
+    CentOS   => apache,
+    Debian   => www-data,
+    default  => www-data
   }
 
   package { ['unzip',$apache,$php,$phpmysql,$phpxml,$phpmcrypt]:
@@ -89,9 +105,16 @@ class joomla::app {
       'joomla_extract_installer':
         command      => "unzip -o\
                         /opt/joomla/setup_files/${joomla_archive}\
-                        -d /var/www/html/",
+                        -d ${install_directory}",
         refreshonly  => true,
         require      => Package['unzip'],
         path         => ['/bin','/usr/bin','/usr/sbin','/usr/local/bin'];
+  }
+  
+  file { 'install_directory':
+    ensure => directory,
+    path => $install_directory,
+    owner => $www_user,
+    group => $www_group,
   }
 }
