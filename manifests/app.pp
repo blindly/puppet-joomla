@@ -23,7 +23,14 @@ class joomla::app {
     Debian   => php5-xml,
     default  => php-xml
   }
-
+  
+  $phpmcrypt = $::operatingsystem ? {
+    Ubuntu   => php-mcrypt,
+    CentOS   => php-mcrypt,
+    Debian   => php5-mcrypt,
+    default  => php-mcrypt
+  }
+  
   $php = $::operatingsystem ? {
     Ubuntu   => libapache2-mod-php,
     CentOS   => php,
