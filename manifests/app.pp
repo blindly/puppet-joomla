@@ -18,7 +18,7 @@ class joomla::app {
   }
 
   $php = $::operatingsystem ? {
-    Ubuntu   => libapache2-mod-php5,
+    Ubuntu   => libapache2-mod-php,
     CentOS   => php,
     Debian   => libapache2-mod-php5,
     default  => php
