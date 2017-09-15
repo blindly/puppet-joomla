@@ -16,6 +16,13 @@ class joomla::app {
     Debian   => php5-mysql,
     default  => php-mysql
   }
+  
+  $phpxml = $::operatingsystem ? {
+    Ubuntu   => php-xml,
+    CentOS   => php-xml,
+    Debian   => php5-xml,
+    default  => php-xml
+  }
 
   $php = $::operatingsystem ? {
     Ubuntu   => libapache2-mod-php,
@@ -24,7 +31,7 @@ class joomla::app {
     default  => php
   }
 
-  package { ['unzip',$apache,$php,$phpmysql]:
+  package { ['unzip',$apache,$php,$phpmysql,$phpxml]:
     ensure => latest
   }
 

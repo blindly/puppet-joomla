@@ -3,7 +3,14 @@ class joomla(
                 $db_user='joomla',
                 $db_password='password'
                 )
-{
-  include joomla::app
-  include joomla::db
+{  
+  class {'joomla::app':
+  
+  }
+  
+  class { 'joomla::db':
+    db_name = $db_name,
+    db_user = $db_user,
+    db_password = $db_password,
+  }
 }
