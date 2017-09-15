@@ -38,7 +38,7 @@ class joomla::app {
     default  => php
   }
 
-  package { ['unzip',$apache,$php,$phpmysql,$phpxml]:
+  package { ['unzip',$apache,$php,$phpmysql,$phpxml,$phpmcrypt]:
     ensure => latest
   }
 
