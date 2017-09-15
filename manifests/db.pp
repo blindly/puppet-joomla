@@ -5,7 +5,7 @@ class joomla::db (
                 $db_password='password'
 ) {
 
-  class { '::mysql::server': }
+  include '::mysql::server'
   
   mysql::db { $db_name:
     user     => $db_user,
