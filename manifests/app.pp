@@ -42,6 +42,11 @@ class joomla::app {
     require    => Package[$apache, $php, $phpmysql],
     subscribe  => File['joomla_vhost'];
   }
+  
+  exec{'retrieve_joomla':
+    command => "/usr/bin/wget -q http://downloads.joomla.org/cms/joomla3/3-7-5/${joomla_archive}?format=zip -O /opt/joomla/setup_files/${joomla_archive}",
+    creates => "/opt/joomla/setup_files/${joomla_archive}",
+  }
 
   file {
     'joomla_application_dir':
@@ -51,12 +56,7 @@ class joomla::app {
     'joomla_setup_files_dir':
       ensure  =>  directory,
       path    =>  '/opt/joomla/setup_files',
-      before  =>  File['joomla_installer'];
-    'joomla_installer':
-      ensure  =>  file,
-      path    =>  "/opt/joomla/setup_files/${joomla_archive}",
-      notify  =>  Exec['joomla_extract_installer'],
-      source  =>  "http://downloads.joomla.org/cms/joomla3/3-7-5/${joomla_archive}?format=zip";
+      before  =>  Exec['retrieve_joomla'];
     'joomla_vhost':
       ensure   => file,
       path     => $vhost_path,
@@ -64,7 +64,8 @@ class joomla::app {
       replace  => true,
       require  => Package[$apache];
     }
-      exec {
+    
+    exec {
       'joomla_extract_installer':
         command      => "unzip -o\
                         /opt/joomla/setup_files/${joomla_archive}\
