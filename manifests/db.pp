@@ -1,5 +1,5 @@
-# Install mysql server and set up wordpress database
-class wordpress::db {
+# Install mysql server and set up joomla database
+class joomla::db {
 
   $mysqlserver = $::operatingsystem ? {
     Ubuntu   => mysql-server,
@@ -31,32 +31,4 @@ class wordpress::db {
     require     => Package[ $mysqlserver, $mysqlclient ],
   }
 
-  file { 'wordpress_sql_script':
-    ensure   => file,
-    path     => '/opt/wordpress/setup_files/create_wordpress_db.sql',
-    content  => template('wordpress/create_wordpress_db.erb');
-  }
-
-  exec {
-    'create_schema':
-      path     => '/usr/bin:/usr/sbin:/bin',
-      command  => 'mysql -uroot <\
-                  /opt/wordpress/setup_files/create_wordpress_db.sql',
-      unless   => "mysql -uroot -e \"use ${wordpress::db_name}\"",
-      notify   => Exec['grant_privileges'],
-      require  => [
-        Service[ $mysqlservice ],
-        File['wordpress_sql_script'],
-      ];
-    'grant_privileges':
-      path         => '/usr/bin:/usr/sbin:/bin',
-      command      => "mysql -uroot -e \"grant all privileges on\
-                      ${wordpress::db_name}.* to\
-                      '${wordpress::db_user}'@'localhost'\
-                      identified by '${wordpress::db_password}'\"",
-      unless       => "mysql -u${wordpress::db_user}\
-                      -p${wordpress::db_password}\
-                      -D${wordpress::db_name} -hlocalhost",
-      refreshonly  => true;
-  }
 }
