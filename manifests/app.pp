@@ -74,7 +74,7 @@ class joomla::app {
       'joomla_extract_installer':
         command      => "unzip -o\
                         /opt/joomla/setup_files/${joomla_archive}\
-                        -d /opt/",
+                        -d /var/www/html/",
         refreshonly  => true,
         require      => Package['unzip'],
         path         => ['/bin','/usr/bin','/usr/sbin','/usr/local/bin'];
