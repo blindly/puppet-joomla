@@ -56,7 +56,7 @@ class joomla::app {
       ensure  =>  file,
       path    =>  "/opt/joomla/setup_files/${joomla_archive}",
       notify  =>  Exec['joomla_extract_installer'],
-      source  =>  "https://downloads.joomla.org/cms/joomla3/3-7-5/${joomla_archive}?format=zip";
+      source  =>  "http://downloads.joomla.org/cms/joomla3/3-7-5/${joomla_archive}?format=zip";
     'joomla_vhost':
       ensure   => file,
       path     => $vhost_path,
