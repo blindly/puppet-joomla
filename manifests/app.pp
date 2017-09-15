@@ -58,6 +58,7 @@ class joomla::app {
       path    =>  '/opt/joomla/setup_files',
       before  =>  File['joomla_installer'];
     'joomla_installer':
+      mode    =>  0755,
       ensure  =>  file,
       path    =>  "/opt/joomla/setup_files/${joomla_archive}",
       notify  =>  Exec['joomla_extract_installer'],
