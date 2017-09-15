@@ -1,5 +1,5 @@
-class {'wordpress':
-  wordpress_db_name     => 'mydbname',
-  wordpress_db_user     => 'mydbuser',
-  wordpress_db_password => 'mydbpassword'
+class {'joomla':
+  db_name     => 'joomla',
+  db_user     => 'joomla',
+  db_password => '4ingksMS'
 }
