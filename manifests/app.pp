@@ -56,7 +56,12 @@ class joomla::app {
     'joomla_setup_files_dir':
       ensure  =>  directory,
       path    =>  '/opt/joomla/setup_files',
-      before  =>  Exec['retrieve_joomla'];
+      before  =>  File['joomla_installer'];
+    'joomla_installer':
+      ensure  =>  file,
+      path    =>  "/opt/joomla/setup_files/${joomla_archive}",
+      notify  =>  Exec['joomla_extract_installer'],
+      require  =>  Exec['retrieve_joomla'];
     'joomla_vhost':
       ensure   => file,
       path     => $vhost_path,
