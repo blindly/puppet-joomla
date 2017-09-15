@@ -5,9 +5,7 @@ class joomla::db (
                 $db_password='password'
 ) {
 
-  class { '::mysql::server':
-    remove_default_accounts => false,
-  }
+  class { '::mysql::server': }
   
   mysql::db { $db_name:
     user     => $db_user,
