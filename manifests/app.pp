@@ -1,7 +1,7 @@
 # Install joomla application and its dependencies
 class joomla::app {
 
-  $joomla_archive = 'Joomla_3-7.5-Stable-Full_Package.zip'
+  $joomla_archive = "Joomla_${major_version}-Stable-Full_Package.zip"
   
   $install_directory = '/var/www/html'
   
@@ -74,7 +74,7 @@ class joomla::app {
   }
   
   exec{'retrieve_joomla':
-    command => "/usr/bin/wget -q http://downloads.joomla.org/cms/joomla3/3-7-5/${joomla_archive}?format=zip -O /opt/joomla/setup_files/${joomla_archive}",
+    command => "/usr/bin/wget -q http://downloads.joomla.org/cms/joomla3/${version}/${joomla_archive}?format=zip -O /opt/joomla/setup_files/${joomla_archive}",
     creates => "/opt/joomla/setup_files/${joomla_archive}",
   }
 
