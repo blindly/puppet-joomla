@@ -26,6 +26,13 @@ class joomla::app {
     default  => php-xml
   }
   
+  $phpmbstring = $::operatingsystem ? {
+    Ubuntu   => php-mbstring,
+    CentOS   => php-mbstring,
+    Debian   => php5-mbstring,
+    default  => php-mbstring
+  }
+  
   $phpmcrypt = $::operatingsystem ? {
     Ubuntu   => php-mcrypt,
     CentOS   => php-mcrypt,
@@ -54,7 +61,7 @@ class joomla::app {
     default  => www-data
   }
 
-  package { ['unzip',$apache,$php,$phpmysql,$phpxml,$phpmcrypt]:
+  package { ['unzip',$apache,$php,$phpmysql,$phpxml,$phpmcrypt,$phpmbstring]:
     ensure => latest
   }
 
